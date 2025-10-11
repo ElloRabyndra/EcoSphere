@@ -1,27 +1,64 @@
-import { useState } from "react";
-import { Card, CardTitle } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import Sidebar from "@/components/Sidebar";
+import ProfileCard from "@/components/home/ProfileCard";
+import BadgeCollection from "@/components/home/BadgeCollection";
+import MissionList from "@/components/home/MissionList";
 
 const Home = () => {
-  const [count, setCount] = useState(0);
+  // Mock data
+  const userStats = {
+    totalActions: 42,
+    totalPoints: 12000,
+    badges: { current: 6, total: 6 }
+  };
+
+  const missions = [
+    {
+      id: 1,
+      title: "Matikan Lampu Saat Tidak Dipakai",
+      description: "Cek kamar, matikan lampu jika tidak digunakan.",
+      level: 1,
+      points: 5,
+    },
+    {
+      id: 2,
+      title: "Bawa Botol Minum Sendiri",
+      description: "Hindari beli air mineral sekali pakai.",
+      level: 1,
+      points: 5,
+    },
+    {
+      id: 3,
+      title: "Siram Tanaman Setiap Hari",
+      description: "Merawat tanaman di rumah atau sekolah.",
+      level: 1,
+      points: 5,
+    }
+  ];
+
   return (
-    <section>
-      <div className="flex justify-center items-center h-screen">
-        <Sidebar />
-        <Card className="w-80 p-4">
-          <CardTitle className="text-center">
-            Welcome to My React Template
-          </CardTitle>
-          <Button
-            className="cursor-pointer"
-            onClick={() => setCount((count) => count + 1)}
-          >
-            count is {count}
-          </Button>
-        </Card>
+    <div className="min-h-screen bg-background p-4 py-8 md:p-8 md:py-16">
+      <div className="max-w-7xl mx-auto">
+        {/* Mobile Layout */}
+        <div className="md:hidden space-y-4">
+          <ProfileCard stats={userStats} />
+          <BadgeCollection />
+          <MissionList missions={missions} />
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-2 md:gap-6">
+          {/* Left Column */}
+          <div className="space-y-6">
+            <ProfileCard stats={userStats} />
+            <BadgeCollection />
+          </div>
+
+          {/* Right Column */}
+          <div className="space-y-6">
+            <MissionList missions={missions} />
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 
