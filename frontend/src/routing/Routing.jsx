@@ -3,6 +3,10 @@ import MainLayout from "@/layouts/MainLayout";
 import Home from "@/pages/Home";
 import Education from "@/pages/Education";
 import Badge from "@/pages/Badge";
+import Action from "@/pages/Action";
+import ActionDetail from "@/pages/ActionDetail";
+import Profile from "@/pages/Profile";
+import About from "@/pages/About";
 
 const Routing = () => {
   return (
@@ -12,10 +16,11 @@ const Routing = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/edukasi" element={<Education />} />
-          <Route path="/aksi" element={<div className="p-8">Halaman Aksi</div>} />
-          <Route path="/badge" element={<Badge/>} />
-          <Route path="/tentang" element={<div className="p-8">Halaman Tentang</div>} />
-          <Route path="/profil" element={<div className="p-8">Halaman Profil</div>} />
+          <Route path="/aksi/:actionId" element={<ActionDetail />} />
+          <Route path="/aksi" element={<Action />} />
+          <Route path="/badge" element={<Badge />} />
+          <Route path="/tentang" element={<About />} />
+          <Route path="/profil" element={<Profile />} />
         </Route>
 
         {/* Routes tanpa MainLayout (untuk Login, Register, dll) */}
