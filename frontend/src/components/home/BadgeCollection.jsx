@@ -17,7 +17,7 @@ const BadgeCollection = () => {
     <Card className="p-6 border border-gray-200 shadow-sm">
       <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
         <h3 className="text-lg md:text-2xl font-bold text-foreground">Koleksi Badge</h3>
-        <Trophy className="w-5 h-5 text-primary" />
+        <Trophy className="w-5 h-5 md:w-7 md:h-7 text-primary" />
       </div>
 
       {/* Badge Grid */}
