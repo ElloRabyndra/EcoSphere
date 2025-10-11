@@ -23,7 +23,10 @@ const Sidebar = () => {
     { icon: CircleUser, label: "Profil", path: "/profil" },
   ];
 
-  const isActivePath = (path) => location.pathname === path;
+  const isActivePath = (path) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path);
 
   const handleLinkClick = () => {
     window.scrollTo(0, 0);
