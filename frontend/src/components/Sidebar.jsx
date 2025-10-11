@@ -34,13 +34,13 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-16 z-40 pt-8 flex flex-col justify-between",
-          "bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-700 shadow-lg"
+          "fixed top-0 left-0 h-full w-16 z-40 pt-8 flex flex-col justify-between gap-4",
+          "bg-white border-r border-gray-200 shadow-lg"
         )}
       >
         {/* Bagian atas: logo */}
         <div className="flex flex-col items-center">
-          <div className="w-12 h-12 mb-8">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 mb-8">
             <img
               src="/Nav/Logo-EcoSphere.png"
               alt="Logo"
@@ -49,7 +49,7 @@ const Sidebar = () => {
           </div>
 
           {/* Navigasi utama */}
-          <ul className="space-y-3">
+          <ul className="space-y-3 w-max">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = isActivePath(item.path);
@@ -65,7 +65,7 @@ const Sidebar = () => {
                         : "text-primary hover:bg-primary/10"
                     )}
                   >
-                    <Icon className="w-6 h-6 flex-shrink-0" />
+                    <Icon className="w-5.5 h-5.5 sm:w-6 sm:h-6 flex-shrink-0" />
                   </Link>
 
                   {/* Tooltip label */}
@@ -86,7 +86,7 @@ const Sidebar = () => {
 
         {/* Bagian bawah: tombol logout */}
         <div className="p-2.5 bg-primary rounded-lg mx-auto mb-6">
-          <LogOutIcon className="w-6 h-6 text-white" />
+          <LogOutIcon className="w-5.5 h-5.5 sm:w-6 sm:h-6 text-white" />
         </div>
       </aside>
 
