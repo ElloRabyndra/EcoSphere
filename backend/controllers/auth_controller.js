@@ -14,7 +14,7 @@ const register = async (req, res) => {
     if (existingUsers.length > 0) {
       return res.status(400).json({
         success: false,
-        message: "Email already registered",
+        message: "Email Telah Terdaftar",
       });
     }
 
@@ -33,7 +33,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "User registered and logged in successfully",
+      message: "Registrasi Berhasil",
       data: {
         userId,
         email,
@@ -45,7 +45,7 @@ const register = async (req, res) => {
     console.error("Register error:", error);
     res.status(500).json({
       success: false,
-      message: "Registration failed",
+      message: "Registrasi Gagal",
       error: error.message,
     });
   }
@@ -57,7 +57,7 @@ const login = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
-        message: "Validation failed",
+        message: "Kredensial Tidak Valid",
         errors: errors.array(),
       });
     }
@@ -72,7 +72,7 @@ const login = async (req, res) => {
     if (users.length === 0) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Kredensial Tidak Valid",
       });
     }
 
@@ -82,7 +82,7 @@ const login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Password Salah",
       });
     }
 
@@ -94,7 +94,7 @@ const login = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Login successful",
+      message: "Login Berhasil",
       user: {
         id: user.id,
         email: user.email,
@@ -105,7 +105,7 @@ const login = async (req, res) => {
     console.error("Login error:", error);
     res.status(500).json({
       success: false,
-      message: "Login failed",
+      message: "Login Gagal",
       error: error.message,
     });
   }
@@ -125,20 +125,20 @@ const logout = async (req, res) => {
         console.error("Session destroy error:", err);
         return res.status(500).json({
           success: false,
-          message: "Logout failed",
+          message: "Logout Gagal",
         });
       }
 
       res.json({
         success: true,
-        message: "Logged out successfully",
+        message: "Logout Berhasil",
       });
     });
   } catch (error) {
     console.error("Logout error:", error);
     res.status(500).json({
       success: false,
-      message: "Logout failed",
+      message: "Logout Gagal",
       error: error.message,
     });
   }
@@ -149,7 +149,7 @@ const getCurrentUser = async (req, res) => {
     if (!req.session || !req.session.userId) {
       return res.status(401).json({
         success: false,
-        message: "Not authenticated",
+        message: "Tidak ada sesi aktif",
       });
     }
 
@@ -162,7 +162,7 @@ const getCurrentUser = async (req, res) => {
       req.session.destroy();
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: "User tidak ditemukan",
       });
     }
 
@@ -223,7 +223,7 @@ const getCurrentUser = async (req, res) => {
     console.error("Get current user error:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to get user data",
+      message: "Gagal mendapatkan user terkini",
       error: error.message,
     });
   }
