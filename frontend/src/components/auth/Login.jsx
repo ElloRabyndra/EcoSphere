@@ -38,7 +38,7 @@ const Login = () => {
         <Link
           to="/login"
           className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-lg overflow-hidden ${
-            isActive("/login") ? "bg-background" : "bg-white"
+            isActive("/login") ? "bg-white" : "bg-background"
           }`}
         >
           Masuk
@@ -46,7 +46,7 @@ const Login = () => {
         <Link
           to="/register"
           className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-lg overflow-hidden ${
-            isActive("/register") ? "bg-background" : "bg-white"
+            isActive("/register") ? "bg-white" : "bg-background"
           }`}
         >
           Daftar
