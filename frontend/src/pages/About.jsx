@@ -37,25 +37,25 @@ const About = () => {
         <div className="space-y-3">
           <h3 className="font-semibold text-lg">Kirim Feedback</h3>
           <form className="space-y-3">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-0.5">
               <label htmlFor="name" className="text-sm font-medium">
                 Nama
               </label>
               <input
                 type="text"
                 id="name"
-                className="border-b-2 border-slate-500 p-2 outline-none focus:border-primary transition-colors bg-transparent"
+                className="border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent"
                 autoComplete="off"
               />
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-0.5">
               <label htmlFor="pesan" className="text-sm font-medium">
                 Pesan
               </label>
               <input
                 type="text"
                 id="pesan"
-                className="border-b-2 border-slate-500 p-2 outline-none focus:border-primary transition-colors bg-transparent"
+                className="border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent"
                 autoComplete="off"
               />
             </div>

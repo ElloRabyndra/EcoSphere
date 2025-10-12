@@ -35,7 +35,7 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "fixed top-0 left-0 bottom-0 h-[100vh] w-16 z-40 pt-8 flex flex-col justify-between gap-4",
+        "fixed top-0 left-0 bottom-0 h-[100dvh] w-16 z-40 pt-8 flex flex-col justify-between gap-4",
         "bg-white dark:bg-card border-r border-gray-200 dark:border-border shadow-lg"
       )}
     >
