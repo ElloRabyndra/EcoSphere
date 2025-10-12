@@ -5,6 +5,6 @@ const auth = require('../middlewares/auth_mid').authenticateUser;
 
 router.use(auth);
 
-router.post('/', userActionController.performAction, auth);
+router.post('/', userActionController.performAction);
 
 module.exports = router;

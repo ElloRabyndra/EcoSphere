@@ -1,187 +1,144 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
-// Context for Authentication
+const API_URL = "http://localhost:3000/api/auth";
+
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 const AuthContext = createContext();
 
-// Custom hook to use AuthContext
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext); // PERBAIKAN: Menggunakan AuthContext
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
 
-// AuthProvider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load users and check authentication when the application loads
-  useEffect(() => {
+  // Fungsi yang dapat dipanggil untuk memverifikasi sesi dan mengambil data lengkap
+  const refetchUser = async () => {
     try {
-      // Load users from localStorage
-      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-      setUsers(storedUsers);
+      const response = await api.get("/session");
 
-      // Check if a user was previously logged in
-      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      if (currentUser) {
-        setUser(currentUser);
+      if (
+        response.data.success &&
+        response.data.data &&
+        response.data.data.user
+      ) {
+        // Mengisi state user dengan data lengkap (user + badges + stats)
+        setUser(response.data.data.user);
+      } else {
+        setUser(null);
       }
     } catch (error) {
-      console.error("Error loading data from localStorage", error);
-      setUsers([]);
       setUser(null);
-    } finally {
-      setIsLoading(false);
     }
+  };
+
+  // Jalankan refetchUser saat komponen dimuat (untuk sesi yang tersimpan)
+  useEffect(() => {
+    const checkSessionAndStopLoading = async () => {
+      await refetchUser();
+      setIsLoading(false);
+    };
+    checkSessionAndStopLoading();
   }, []);
 
   // Function to register a new user
-  const register = (userData) => {
+  const register = async (userData) => {
+    setIsLoading(true);
     try {
-      const { email, password } = userData;
-      const newUser = { 
-        id: Date.now(),
-        email: email.toLowerCase(), 
-        password 
-      };
+      const response = await api.post("/register", userData);
 
-      // Update users list
-      const updatedUsers = [...users, newUser];
-      setUsers(updatedUsers);
-      
-      // Save to localStorage
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      
-      return { success: true, message: "Registration successful!" };
+      const userDataFromRegister = response.data.data;
+
+      // 1. SET USER SEMENTARA DARI RESPON REGISTER (untuk mengaktifkan isAuthenticated)
+      setUser({
+        id: userDataFromRegister.userId, // Menggunakan userId dari controller
+        email: userDataFromRegister.email,
+        display_name: userDataFromRegister.display_name,
+      });
+
+      // 2. Ambil data lengkap untuk mengisi stats di Home (asynchronous)
+      await refetchUser();
+
+      return {
+        success: true,
+        message: response.data.message || "Registration successful!",
+      };
     } catch (error) {
-      return { success: false, message: "Registration failed!" };
+      const message = error.response?.data?.message || "Registration failed!";
+      setUser(null);
+      return { success: false, message };
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Function for login
-  const login = (credentials) => {
+  const login = async (credentials) => {
+    setIsLoading(true); // START LOADING
     try {
-      const { email, password } = credentials;
-      
-      // Find user by email and password
-      const foundUser = users.find(
-        (user) => user.email.toLowerCase() === email.toLowerCase() && user.password === password
-      );
+      const response = await api.post("/login", credentials);
 
-      if (foundUser) {
-        const userSession = {
-          id: foundUser.id,
-          email: foundUser.email
-        };
-        
-        setUser(userSession);
-        localStorage.setItem("currentUser", JSON.stringify(userSession));
-        
-        return { success: true, message: "Login successful!", user: userSession };
-      } else {
-        return { success: false, message: "Invalid credentials!" };
-      }
+      const userDataFromLogin = response.data.data;
+
+      // 1. SET USER SEMENTARA DARI RESPON LOGIN (untuk mengaktifkan isAuthenticated)
+      setUser({
+        id: userDataFromLogin.id,
+        email: userDataFromLogin.email,
+        display_name: userDataFromLogin.display_name,
+      });
+
+      // 2. Ambil data lengkap dari /session untuk mengisi stats di Home
+      await refetchUser();
+
+      // Karena refetchUser sudah memperbarui state user, cukup kembalikan pesan sukses
+      return {
+        success: true,
+        message: response.data.message || "Login successful!",
+      };
     } catch (error) {
-      return { success: false, message: "Login failed!" };
+      const message = error.response?.data?.message || "Invalid credentials!";
+      setUser(null);
+      return { success: false, message };
+    } finally {
+      setIsLoading(false); // STOP LOADING
     }
   };
 
   // Function for logout
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("currentUser");
-  };
-
-  // Function to check if an email is already registered
-  const isEmailRegistered = (email) => {
-    return users.some(user => user.email.toLowerCase() === email.toLowerCase());
-  };
-
-  // Function to validate password
-  const validatePassword = (email, password) => {
-    const foundUser = users.find(user => user.email.toLowerCase() === email.toLowerCase());
-    return foundUser && foundUser.password === password;
-  };
-
-    // Function to update profile
-  const updateProfile = (profileData) => {
+  const logout = async () => {
     try {
-      const { email, old_password, new_password } = profileData;
-      
-      // Find the current user
-      const currentUserIndex = users.findIndex(u => u.id === user.id);
-      
-      if (currentUserIndex === -1) {
-        return { success: false, message: "User not found!" };
-      }
-      
-      const currentUserData = users[currentUserIndex];
-      
-      // Validate old password
-      if (currentUserData.password !== old_password) {
-        return { success: false, message: "Incorrect old password!" };
-      }
-      
-      // If email changes, check if the new email is already used by another user
-      if (email.toLowerCase() !== currentUserData.email.toLowerCase()) {
-        const emailExists = users.some(u => 
-          u.id !== user.id && u.email.toLowerCase() === email.toLowerCase()
-        );
-        
-        if (emailExists) {
-          return { success: false, message: "Email already in use!" };
-        }
-      }
-      
-      // Update user data
-      const updatedUser = {
-        ...currentUserData,
-        email: email.toLowerCase(),
-        password: new_password
-      };
-      
-      // Update users array
-      const updatedUsers = [...users];
-      updatedUsers[currentUserIndex] = updatedUser;
-      setUsers(updatedUsers);
-      
-      // Update current user session
-      const updatedUserSession = {
-        id: updatedUser.id,
-        email: updatedUser.email
-      };
-      setUser(updatedUserSession);
-      
-      // Save to localStorage
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem("currentUser", JSON.stringify(updatedUserSession));
-      
-      return { success: true, message: "Profile updated successfully!" };
+      await api.post("/logout");
+      setUser(null);
+      return { success: true, message: "Logout successful!" };
     } catch (error) {
-      return { success: false, message: "Profile update failed!" };
+      const message = error.response?.data?.message || "Logout failed!";
+      return { success: false, message };
     }
   };
+  // ... (isEmailRegistered dan validatePassword)
 
   const value = {
     user,
-    users,
     isLoading,
     isAuthenticated: !!user,
     register,
     login,
     logout,
-    isEmailRegistered,
-    validatePassword,
-    updateProfile
+    // ...
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
