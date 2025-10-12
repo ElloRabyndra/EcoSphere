@@ -12,7 +12,7 @@ const DeveloperCard = ({ developer }) => {
   } = developer;
 
   return (
-    <div className="relative bg-white">
+    <div className="relative">
       <div
         className={`${cardBg} rounded-2xl p-5 space-y-4 border-2`}
         style={{ borderColor: cardColor }}
