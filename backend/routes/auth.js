@@ -6,27 +6,18 @@ const { register, login, logout, getCurrentUser } = require('../controllers/auth
 const router = express.Router();
 
 router.post('/register', requireGuest, [
-    body('email').isEmail().normalizeEmail(),
-    body('password'),
-    body('display_name').trim().isLength({ min: 1, max: 50 })
+    body('email').isEmail().normalizeEmail().notEmpty(),
+    body('password').notEmpty(),
+    body('display_name').trim().notEmpty()
 ], register);
 
 router.post('/login', requireGuest, [
-    body('email').isEmail().normalizeEmail(),
+    body('email').isEmail().normalizeEmail().notEmpty(),
     body('password').notEmpty()
 ], login);
 
 router.post('/logout', logout);
 
 router.get('/me', getCurrentUser);
-
-router.get('/status', (req, res) => {
-  res.json({
-    success: true,
-    authenticated: req.session && req.session.userId ? true : false,
-    sessionId: req.session ? req.session.id : null,
-    userId: req.session ? req.session.userId : null
-  });
-});
 
 module.exports = router;

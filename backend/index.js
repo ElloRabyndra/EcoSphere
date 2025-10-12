@@ -21,17 +21,16 @@ app.use(session({
 }));
 
 const authRoutes = require('./routes/auth');
-// const actionsRoutes = require('./routes/actions');
-// const userActionsRoutes = require('./routes/userActions');
-// const profileRoutes = require('./routes/profile');
-// const adminRoutes = require('./routes/admin');
-// const requireAuth = require('./middleware/requireAuth');
+const actionsRoutes = require('./routes/actions');
+const userActionsRoutes = require('./routes/userActions');
+const badgesRoutes = require('./routes/badges');
+const feedbackRoutes = require('./routes/feedback');
 
 app.use('/api/auth', authRoutes);
-// app.use('/api/actions', actionsRoutes);
-// app.use('/api/user-actions', userActionsRoutes, requireAuth);
-// app.use('/api/profile', profileRoutes, requireAuth);
-// app.use('/api/admin', adminRoutes, requireAuth);
+app.use('/api/actions', actionsRoutes);
+app.use('/api/user-actions', userActionsRoutes);
+app.use('/api/badges', badgesRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');

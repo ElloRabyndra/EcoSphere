@@ -130,8 +130,6 @@ const logout = async (req, res) => {
             });
         }
 
-        res.clearCookie('omelobe_session');
-        
         res.json({
             success: true,
             message: 'Logged out successfully'
@@ -151,15 +149,15 @@ const logout = async (req, res) => {
 const getCurrentUser = async (req, res) => {
     try {
         if (!req.session || !req.session.userId) {
-        return res.status(401).json({ 
-            success: false, 
-            message: 'Not authenticated' 
-        });
+            return res.status(401).json({ 
+                success: false, 
+                message: 'Not authenticated' 
+            });
         }
 
         const [users] = await db.execute(
-        'SELECT id, email, display_name, points, level, avatar_name, created_at FROM users WHERE id = ?',
-        [req.session.userId]
+            'SELECT id, email, display_name, points, level, avatar_name, created_at FROM users WHERE id = ?',
+            [req.session.userId]
         );
 
         if (users.length === 0) {
@@ -170,9 +168,54 @@ const getCurrentUser = async (req, res) => {
             });
         }
 
+        const user = users[0];
+
+        const [userBadges] = await db.execute(
+                `SELECT b.id, b.name, b.image_name, b.criteria, ub.awarded_at 
+                FROM user_badges ub 
+                JOIN badges b ON ub.badge_id = b.id 
+                WHERE ub.user_id = ? 
+                ORDER BY ub.awarded_at DESC`,
+            [req.session.userId]
+        );
+
+        const [allBadges] = await db.execute(
+            'SELECT id, name, image_name, criteria FROM badges ORDER BY id'
+        );
+
+        const badgeStats = {
+            earned_badges: userBadges.length,
+            progress_percentage: Math.round((userBadges.length / allBadges.length) * 100)
+        };
+
+        const [totalActions] = await db.execute(
+            'SELECT COUNT(*) as total_actions FROM user_actions WHERE user_id = ?',
+            [req.session.userId]
+        );
+
+        const [nextLevelInfo] = await db.execute(
+            'SELECT id, name, min_points FROM levels WHERE id = ? LIMIT 1',
+            [user.level + 1]
+        );
+
+        let nextLevel = null;
+        if (nextLevelInfo.length > 0) {
+            nextLevel = nextLevelInfo[0];
+        }
+
         res.json({
             success: true,
-            data: users[0]
+            data: {
+                user: {
+                    ...user,
+                    total_actions: totalActions[0].total_actions,
+                    next_level: nextLevel
+                },
+                badges: {
+                    earned: userBadges,
+                    statistics: badgeStats,
+                }
+            }
         });
 
     } catch (error) {
@@ -184,5 +227,6 @@ const getCurrentUser = async (req, res) => {
         });
     }
 };
+
 
 module.exports = { register, login, logout, getCurrentUser };
