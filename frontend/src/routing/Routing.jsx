@@ -13,7 +13,7 @@ import Register from "@/components/auth/Register";
 
 const Routing = () => {
   return (
-    <section className="bg-background text-foreground">
+    <section className="text-foreground">
       <Routes>
         {/* Routes tanpa MainLayout (untuk Login dan register) */}
         <Route element={<AuthLayout />}>

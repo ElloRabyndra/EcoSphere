@@ -3,9 +3,8 @@ import BadgeCollection from "@/components/home/BadgeCollection";
 import MissionList from "@/components/home/MissionList";
 import { userStats, missions } from "@/database/data";
 const Home = () => {
-
   return (
-    <main className="min-h-screen bg-background p-4 py-8 md:p-8 md:py-16">
+    <main className="min-h-screen p-4 py-8 md:p-8 md:py-16">
       <div className="max-w-7xl mx-auto">
         {/* Mobile Layout */}
         <div className="md:hidden space-y-4">
