@@ -7,11 +7,19 @@ import Action from "@/pages/Action";
 import ActionDetail from "@/pages/ActionDetail";
 import Profile from "@/pages/Profile";
 import About from "@/pages/About";
+import AuthLayout from "@/layouts/AuthLayout";
+import Login from "@/components/auth/Login";
+import Register from "@/components/auth/Register";
 
 const Routing = () => {
   return (
     <section className="bg-background text-foreground">
       <Routes>
+        {/* Routes tanpa MainLayout (untuk Login dan register) */}
+        <Route element={<AuthLayout />}>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
         {/* Routes dengan MainLayout (ada Sidebar) */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -22,10 +30,6 @@ const Routing = () => {
           <Route path="/tentang" element={<About />} />
           <Route path="/profil" element={<Profile />} />
         </Route>
-
-        {/* Routes tanpa MainLayout (untuk Login, Register, dll) */}
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
       </Routes>
     </section>
   );
