@@ -15,7 +15,7 @@ const Home = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-2 md:gap-6">
+        <div className="hidden md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-6">
           {/* Left Column */}
           <div className="space-y-6">
             <ProfileCard stats={userStats} />
