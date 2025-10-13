@@ -1,31 +1,22 @@
-import { Navigate, useLocation } from "react-router"; 
-import { useAuth } from "./useAuth"; 
+// src/features/auth/ProtectedRoute.jsx
+import { Navigate, Outlet } from 'react-router';
+import { useAuth } from './useAuth';
+import { Loader2 } from 'lucide-react'; // Asumsi Anda menggunakan Lucide icons atau sejenisnya
 
-/**
- * ProtectedRoute component
- * This component is used to protect routes, ensuring that only authenticated users can access them.
- * If a user is not authenticated, they are redirected to the login page.
- */
+const ProtectedRoute = () => {
+  const { isAuthenticated, loading } = useAuth();
 
-const ProtectedRoute = ({ children }) => {
-  // Accesses authentication status and loading state from the useAuth hook
-  const { isAuthenticated, isLoading } = useAuth();
-  // Gets the current location object, useful for redirecting back after login
-  const location = useLocation();
-
-  // Display a loading indicator (or nothing) while authentication status is being checked
-  if (isLoading) {
-    return null;
+  if (loading) {
+    // Tampilkan loading screen/spinner saat status auth sedang dicek
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
-  // If the user is not authenticated, redirect them to the login page.
-  // The 'state' prop saves the current location, allowing redirection back after successful login.
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  // If the user is authenticated, render the children (the protected content/component)
-  return children;
+  // Jika sudah login, tampilkan konten rute anak (Outlet)
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;
