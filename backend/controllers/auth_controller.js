@@ -72,7 +72,7 @@ const login = async (req, res) => {
     if (users.length === 0) {
       return res.status(401).json({
         success: false,
-        message: "Kredensial Tidak Valid",
+        message: "Email Tidak Ditemukan",
       });
     }
 
