@@ -1,13 +1,25 @@
 import { Card } from "@/components/ui/card";
-import { Car, Flame } from "lucide-react";
+import { Flame } from "lucide-react";
 
-const ProfileCard = ({ stats }) => {
-  const { totalActions, totalPoints, badges } = stats;
-  const username = "User123";
-  const level = 2;
-  const currentXP = 600;
-  const maxXP = 1000;
-  const xpPercentage = (currentXP / maxXP) * 100;
+const ProfileCard = ({ user }) => {
+  // Destructure data dari user
+  const username = user?.display_name || "User";
+  const level = user?.level || 1;
+  const currentPoints = user?.points || 0;
+  const totalActions = user?.total_actions || 0;
+  const totalPoints = user?.points || 0;
+
+  // Badge statistics
+  const earnedBadgesCount = user?.earned_badges?.length || 0;
+  const totalBadges =
+    user?.badge_statistics?.earned_badges || earnedBadgesCount;
+  const badgeProgressPercentage =
+    user?.badge_statistics?.progress_percentage || 0;
+
+  // Hitung progress ke level berikutnya
+  const nextLevel = user?.next_level;
+  const maxXP = nextLevel?.min_points || currentPoints;
+  const xpPercentage = nextLevel ? (currentPoints / maxXP) * 100 : 100;
 
   return (
     <div className="rounded-xl overflow-hidden shadow-md">
@@ -17,7 +29,9 @@ const ProfileCard = ({ stats }) => {
         <div className="bg-primary p-6 border-none shadow-md md:flex-1">
           <div className="flex items-center gap-4 mb-4">
             {/* Profile Picture */}
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-300 flex-shrink-0" />
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center text-white font-bold text-2xl">
+              {username.charAt(0).toUpperCase()}
+            </div>
 
             <div className="flex-1">
               {/* Username */}
@@ -37,11 +51,15 @@ const ProfileCard = ({ stats }) => {
             <div className="w-full bg-white/30 rounded-full overflow-hidden text-white h-5 md:h-6">
               <div
                 className="bg-yellow-400 h-full rounded-full transition-all duration-300 px-3 text-sm flex items-center justify-center pt-1"
-                style={{ width: `${xpPercentage}%` }}
-              >
-                {currentXP} / {maxXP} XP
-              </div>
+                style={{ width: `${Math.min(xpPercentage, 100)}%` }}
+              ></div>
             </div>
+            <p className="text-white/80 text-sm mt-2">{currentPoints} / {maxXP} XP</p>
+            {nextLevel && (
+              <p className="text-white/80 text-xs mt-1">
+                Next: {nextLevel.name}
+              </p>
+            )}
           </div>
         </div>
 
@@ -72,7 +90,7 @@ const ProfileCard = ({ stats }) => {
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground text-sm">Badges</span>
               <span className="font-semibold text-foreground">
-                {badges.current} / {badges.total}
+                {earnedBadgesCount} / 6
               </span>
             </div>
           </div>
@@ -104,7 +122,7 @@ const ProfileCard = ({ stats }) => {
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground text-sm">Badges</span>
             <span className="font-semibold text-foreground">
-              {badges.current} / {badges.total}
+              {earnedBadgesCount} / {totalBadges}
             </span>
           </div>
         </div>
