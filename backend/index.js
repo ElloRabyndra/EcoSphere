@@ -65,12 +65,14 @@ const actionsRoutes = require("./routes/actions");
 const userActionsRoutes = require("./routes/userActions");
 const badgesRoutes = require("./routes/badges");
 const feedbackRoutes = require("./routes/feedback");
+const levelsRoutes = require("./routes/levels");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/actions", actionsRoutes);
 app.use("/api/user-actions", userActionsRoutes);
 app.use("/api/badges", badgesRoutes);
 app.use("/api/feedback", feedbackRoutes);
+app.use("/api/levels", levelsRoutes);
 
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
