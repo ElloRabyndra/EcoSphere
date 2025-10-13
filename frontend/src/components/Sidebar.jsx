@@ -10,8 +10,10 @@ import {
   LogOutIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/features/auth/useAuth";
 
 const Sidebar = () => {
+  const { logout } = useAuth();
   const location = useLocation();
 
   const menuItems = [
@@ -86,7 +88,10 @@ const Sidebar = () => {
       </div>
 
       {/* Bagian bawah: tombol logout */}
-      <div className="p-2.5 bg-primary rounded-lg mx-auto mb-6 cursor-pointer hover:bg-primary/90 transition-colors">
+      <div
+        onClick={logout}
+        className="p-2.5 bg-primary rounded-lg mx-auto mb-6 cursor-pointer hover:bg-primary/90 transition-colors"
+      >
         <LogOutIcon className="w-5.5 h-5.5 sm:w-6 sm:h-6 text-white" />
       </div>
     </aside>

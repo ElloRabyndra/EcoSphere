@@ -4,12 +4,17 @@ import EyeButton from "./eyeButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "./Schema";
+import { useAuth } from "@/features/auth/useAuth";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { register: authRegister, loading } = useAuth();
+
+  const isSubmitting = loading;
 
   const {
     register,
@@ -21,12 +26,17 @@ const Register = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      console.log("Data dikirim:", data);
+    const result = await authRegister(
+      data.display_name,
+      data.email,
+      data.password
+    );
+
+    if (result.success) {
+      toast.success(result.message);
       reset();
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast.error(result.message);
     }
   };
 
@@ -61,11 +71,15 @@ const Register = () => {
               id="display_name"
               {...register("display_name")}
               placeholder={
-                errors.display_name ? errors.display_name.message : "Masukkan Nama"
+                errors.display_name
+                  ? errors.display_name.message
+                  : "Masukkan Nama"
               }
               autoComplete="off"
               className={`border-b outline-none placeholder:text-gray-400 ${
-                errors.display_name ? "placeholder:text-red-500 border-red-500" : ""
+                errors.display_name
+                  ? "placeholder:text-red-500 border-red-500"
+                  : ""
               }`}
             />
           </div>
@@ -77,7 +91,9 @@ const Register = () => {
               type="email"
               id="email"
               {...register("email")}
-              placeholder={errors.email ? errors.email.message : "Masukkan Email"}
+              placeholder={
+                errors.email ? errors.email.message : "Masukkan Email"
+              }
               autoComplete="off"
               className={`border-b outline-none placeholder:text-gray-400 ${
                 errors.email ? "placeholder:text-red-500 border-red-500" : ""
@@ -98,7 +114,9 @@ const Register = () => {
                 id="password"
                 {...register("password")}
                 placeholder={
-                  errors.password ? errors.password.message : "Masukkan Password"
+                  errors.password
+                    ? errors.password.message
+                    : "Masukkan Password"
                 }
                 autoComplete="off"
                 className={`border-none w-[85%] outline-none placeholder:text-gray-400 ${
@@ -119,7 +137,7 @@ const Register = () => {
             disabled={isSubmitting}
             className="w-full py-1 rounded-md bg-primary/20 hover:bg-primary/30"
           >
-            {isSubmitting ? "Mengirim..." : "Kirim"}
+            {isSubmitting ? "Mendaftar..." : "Daftar"}
           </button>
         </div>
       </form>
