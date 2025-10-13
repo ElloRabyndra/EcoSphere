@@ -1,5 +1,4 @@
 const express = require("express");
-const requireAuth = require("../middlewares/auth_mid").authenticateUser;
 const {
   getAllActions,
   getActionById,
@@ -8,8 +7,8 @@ const {
 
 const router = express.Router();
 
-router.get("/", requireAuth, getAllActions);
-router.get("/categories/:category", requireAuth, getActionsByCategory);
-router.get("/:id", requireAuth, getActionById);
+router.get("/", getAllActions);
+router.get("/categories/:category", getActionsByCategory);
+router.get("/:id", getActionById);
 
 module.exports = router;
