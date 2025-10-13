@@ -10,6 +10,7 @@ import About from "@/pages/About";
 import AuthLayout from "@/layouts/AuthLayout";
 import Login from "@/components/auth/Login";
 import Register from "@/components/auth/Register";
+import Landing from "@/pages/Landing";
 
 const Routing = () => {
   return (
@@ -22,6 +23,7 @@ const Routing = () => {
         </Route>
         {/* Routes dengan MainLayout (ada Sidebar) */}
         <Route element={<MainLayout />}>
+          <Route path="/landing" element={<Landing />} />
           <Route path="/" element={<Home />} />
           <Route path="/edukasi" element={<Education />} />
           <Route path="/aksi/:actionId" element={<ActionDetail />} />
