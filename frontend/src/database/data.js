@@ -5,6 +5,44 @@ const userStats = {
   badges: { current: 6, total: 6 },
 };
 
+
+const steps = [
+  {
+    number: 1,
+    title: 'Daftar Gratis',
+    description: '30 detik untuk bergabung'
+},
+  {
+    number: 2,
+    title: 'Pilih Aksi',
+    description: '19 aksi mudah tersedia'
+  },
+  {
+    number: 3,
+    title: 'Raih Reward',
+    description: 'Poin, level, dan badge keren!'
+  }
+]
+
+
+const impacts = [
+  {
+    title: '8 Juta Ton',
+    subtitle: 'Sampah plastik laut/tahun',
+    image:'/Landing/sampah-numpuk.jpeg'
+  },
+  {
+    title: '+1.1°C',
+    subtitle: 'Kenaikan suhu global',
+    image: '/Landing/pemanasan-global.jpeg'
+  },
+  {
+    title: '10 Miliar',
+    subtitle: 'Pohon hilang/tahun',
+    image: '/Landing/Hutan-Gundul.jpg'
+  },
+];
+
 const missions = [
   {
     id: 1,
@@ -433,6 +471,8 @@ const levels = [
 
 export {
   userStats,
+  steps,
+  impacts,
   missions,
   guides,
   tips,

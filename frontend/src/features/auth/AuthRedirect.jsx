@@ -17,7 +17,7 @@ const AuthRedirect = () => {
   
   // Jika sudah login, alihkan ke halaman utama ('/')
   // Jika belum login, lanjutkan ke konten rute anak (Login/Register)
-  return isAuthenticated ? <Navigate to="/" replace /> : <Outlet />;
+  return isAuthenticated ? <Navigate to="/home" replace /> : <Outlet />;
 };
 
 export default AuthRedirect;

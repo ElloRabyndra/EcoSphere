@@ -23,7 +23,7 @@ const AuthLayout = () => {
 
         {/* Background */}
         <div className="absolute bottom-0 left-0 right-0 z-0">
-          <div className="flex justify-center items-center w-full lg:w-1/2 h-85 lg:h-60 rounded-t-[50%] lg:rounded-tr-[250%] scale-160 lg:scale-140 bg-[#228C22]/40">
+          <div className="flex justify-center items-center w-full lg:w-1/2 h-80 lg:h-60 rounded-t-[50%] lg:rounded-tr-[250%] scale-160 lg:scale-140 bg-[#228C22]/40">
             <div className="w-40 absolute top-[2%] - sm:-mt-0 left-[47%] transform -translate-x-1/2 -translate-y-1/2">
               <img
                 className="w-full h-full object-cover"

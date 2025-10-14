@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
       if (response.data.success) {
         // Setelah login berhasil, ambil data user lengkap
         await checkAuthStatus();
-        navigate("/");
+        navigate("/home");
         return { success: true, message: "Login berhasil!" };
       }
 
@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.data.success) {
-        setUser(response.data.user); // tampil dulu
-        navigate("/");
-        checkAuthStatus(); // fetch data lengkap di background
+        setUser(response.data.user); 
+        navigate("/home");
+        checkAuthStatus(); 
         return { success: true, message: "Login berhasil!" };
       }
 
@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Logout error:", error);
     } finally {
       setUser(null);
-      navigate("/login");
+      navigate("/");
     }
   };
 

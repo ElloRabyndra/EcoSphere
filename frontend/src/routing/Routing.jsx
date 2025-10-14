@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router"; // Pastikan import dari 'react-router-dom'
+import { Route, Routes } from "react-router"; 
 import MainLayout from "@/layouts/MainLayout";
 import Home from "@/pages/Home";
 import Education from "@/pages/Education";
@@ -10,7 +10,7 @@ import About from "@/pages/About";
 import AuthLayout from "@/layouts/AuthLayout";
 import Login from "@/components/auth/Login";
 import Register from "@/components/auth/Register";
-// Import komponen proteksi yang baru
+import Landing from "@/pages/Landing";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import AuthRedirect from "@/features/auth/AuthRedirect";
 
@@ -19,15 +19,15 @@ const Routing = () => {
     <section className="text-foreground">
       <Routes>
         <Route element={<AuthRedirect />}>
+          <Route path="/" element={<Landing />} />
           <Route element={<AuthLayout />}>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Route>
         </Route>
-
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/edukasi" element={<Education />} />
             <Route path="/aksi/:actionId" element={<ActionDetail />} />
             <Route path="/aksi" element={<Action />} />

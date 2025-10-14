@@ -1,7 +1,7 @@
 // src/features/auth/ProtectedRoute.jsx
 import { Navigate, Outlet } from 'react-router';
 import { useAuth } from './useAuth';
-import { Loader2 } from 'lucide-react'; // Asumsi Anda menggunakan Lucide icons atau sejenisnya
+import { Loader2 } from 'lucide-react'; 
 
 const ProtectedRoute = () => {
   const { isAuthenticated, loading } = useAuth();
