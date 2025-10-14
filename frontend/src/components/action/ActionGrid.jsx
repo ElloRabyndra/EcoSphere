@@ -1,6 +1,6 @@
 import ActionCard from "./ActionCard";
 
-const ActionGrid = ({ actions, actionType, category }) => {
+const ActionGrid = ({ actions, actionType, category, userLevel }) => {
   const actionsByType = actions.filter(
     (action) => action.category === category
   );
@@ -36,7 +36,12 @@ const ActionGrid = ({ actions, actionType, category }) => {
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-4">
           {actionsByType.map((action) => (
-            <ActionCard key={action.id} action={action} actionType={actionType} />
+            <ActionCard
+              key={action.id}
+              action={action}
+              actionType={actionType}
+              userLevel={userLevel}
+            />
           ))}
         </div>
       </div>

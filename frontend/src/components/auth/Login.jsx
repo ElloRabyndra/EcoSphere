@@ -4,30 +4,38 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./Schema";
+import { useAuth } from "@/features/auth/useAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Ambil fungsi login dan status loading dari useAuth
+  const { login, loading } = useAuth();
+
+  // Gunakan loading dari useAuth sebagai status submit
+  const isSubmitting = loading;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setError,
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      console.log("Data login:", data);
-      // Proses autentikasi bisa ditambahkan di sini
-      reset();
-    } finally {
-      setIsSubmitting(false);
+    const result = await login(data.email, data.password);
+
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+      reset({ password: "" });
     }
   };
 
@@ -63,7 +71,9 @@ const Login = () => {
               type="email"
               id="email"
               {...register("email")}
-              placeholder={errors.email ? errors.email.message : "Masukkan Email"}
+              placeholder={
+                errors.email ? errors.email.message : "Masukkan Email"
+              }
               autoComplete="off"
               className={`border-b outline-none placeholder:text-gray-400 ${
                 errors.email ? "placeholder:text-red-500 border-red-500" : ""
@@ -84,7 +94,9 @@ const Login = () => {
                 id="password"
                 {...register("password")}
                 placeholder={
-                  errors.password ? errors.password.message : "Masukkan Password"
+                  errors.password
+                    ? errors.password.message
+                    : "Masukkan Password"
                 }
                 autoComplete="off"
                 className={`border-none w-[85%] outline-none placeholder:text-gray-400 ${
@@ -103,9 +115,9 @@ const Login = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-1 rounded-md bg-primary/20 hover:bg-primary/30"
+            className="w-full py-1 rounded-md bg-primary/20 hover:bg-primary/30 disabled:opacity-50 transition-opacity"
           >
-            {isSubmitting ? "Mengirim..." : "Kirim"}
+            {isSubmitting ? "Memuat..." : "Masuk"}
           </button>
         </div>
       </form>

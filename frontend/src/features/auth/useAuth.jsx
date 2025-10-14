@@ -1,187 +1,129 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
-// Context for Authentication
+const API_URL = "http://localhost:3000/api/auth";
+
 const AuthContext = createContext();
 
-// Custom hook to use AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-// AuthProvider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Load users and check authentication when the application loads
-  useEffect(() => {
+  axios.defaults.withCredentials = true;
+
+  // Mengecek status autentikasi dari server
+  const checkAuthStatus = async () => {
     try {
-      // Load users from localStorage
-      const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-      setUsers(storedUsers);
-
-      // Check if a user was previously logged in
-      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      if (currentUser) {
-        setUser(currentUser);
+      const res = await axios.get(`${API_URL}/session`);
+      if (res.data.success && res.data.user) {
+        setUser(res.data.user);
+      } else {
+        setUser(null);
       }
     } catch (error) {
-      console.error("Error loading data from localStorage", error);
-      setUsers([]);
+      console.error("Auth check failed:", error);
       setUser(null);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    checkAuthStatus();
   }, []);
 
-  // Function to register a new user
-  const register = (userData) => {
+  // Fungsi login
+  const login = async (email, password) => {
+    setLoading(true);
     try {
-      const { email, password } = userData;
-      const newUser = { 
-        id: Date.now(),
-        email: email.toLowerCase(), 
-        password 
-      };
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
 
-      // Update users list
-      const updatedUsers = [...users, newUser];
-      setUsers(updatedUsers);
-      
-      // Save to localStorage
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      
-      return { success: true, message: "Registration successful!" };
+      if (response.data.success) {
+        // Setelah login berhasil, ambil data user lengkap
+        await checkAuthStatus();
+        navigate("/");
+        return { success: true, message: "Login berhasil!" };
+      }
+
+      return {
+        success: false,
+        message: response.data.message || "Kredensial tidak valid.",
+      };
     } catch (error) {
-      return { success: false, message: "Registration failed!" };
+      console.error("Login error:", error);
+      const errorMessage =
+        error.response?.data?.message || "Terjadi kesalahan saat login";
+      return { success: false, message: errorMessage };
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Function for login
-  const login = (credentials) => {
+  // Fungsi register
+  const register = async (display_name, email, password) => {
+    setLoading(true);
     try {
-      const { email, password } = credentials;
-      
-      // Find user by email and password
-      const foundUser = users.find(
-        (user) => user.email.toLowerCase() === email.toLowerCase() && user.password === password
-      );
+      const response = await axios.post(`${API_URL}/register`, {
+        display_name,
+        email,
+        password,
+      });
 
-      if (foundUser) {
-        const userSession = {
-          id: foundUser.id,
-          email: foundUser.email
-        };
-        
-        setUser(userSession);
-        localStorage.setItem("currentUser", JSON.stringify(userSession));
-        
-        return { success: true, message: "Login successful!", user: userSession };
-      } else {
-        return { success: false, message: "Invalid credentials!" };
+      if (response.data.success) {
+        setUser(response.data.user); // tampil dulu
+        navigate("/");
+        checkAuthStatus(); // fetch data lengkap di background
+        return { success: true, message: "Login berhasil!" };
       }
+
+      return {
+        success: false,
+        message: response.data.message || "Registrasi gagal.",
+      };
     } catch (error) {
-      return { success: false, message: "Login failed!" };
+      console.error("Register error:", error);
+      const errorMessage =
+        error.response?.data?.message || "Terjadi kesalahan saat registrasi.";
+      return { success: false, message: errorMessage };
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Function for logout
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("currentUser");
-  };
-
-  // Function to check if an email is already registered
-  const isEmailRegistered = (email) => {
-    return users.some(user => user.email.toLowerCase() === email.toLowerCase());
-  };
-
-  // Function to validate password
-  const validatePassword = (email, password) => {
-    const foundUser = users.find(user => user.email.toLowerCase() === email.toLowerCase());
-    return foundUser && foundUser.password === password;
-  };
-
-    // Function to update profile
-  const updateProfile = (profileData) => {
+  // Fungsi logout
+  const logout = async () => {
     try {
-      const { email, old_password, new_password } = profileData;
-      
-      // Find the current user
-      const currentUserIndex = users.findIndex(u => u.id === user.id);
-      
-      if (currentUserIndex === -1) {
-        return { success: false, message: "User not found!" };
-      }
-      
-      const currentUserData = users[currentUserIndex];
-      
-      // Validate old password
-      if (currentUserData.password !== old_password) {
-        return { success: false, message: "Incorrect old password!" };
-      }
-      
-      // If email changes, check if the new email is already used by another user
-      if (email.toLowerCase() !== currentUserData.email.toLowerCase()) {
-        const emailExists = users.some(u => 
-          u.id !== user.id && u.email.toLowerCase() === email.toLowerCase()
-        );
-        
-        if (emailExists) {
-          return { success: false, message: "Email already in use!" };
-        }
-      }
-      
-      // Update user data
-      const updatedUser = {
-        ...currentUserData,
-        email: email.toLowerCase(),
-        password: new_password
-      };
-      
-      // Update users array
-      const updatedUsers = [...users];
-      updatedUsers[currentUserIndex] = updatedUser;
-      setUsers(updatedUsers);
-      
-      // Update current user session
-      const updatedUserSession = {
-        id: updatedUser.id,
-        email: updatedUser.email
-      };
-      setUser(updatedUserSession);
-      
-      // Save to localStorage
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem("currentUser", JSON.stringify(updatedUserSession));
-      
-      return { success: true, message: "Profile updated successfully!" };
+      await axios.post(`${API_URL}/logout`);
     } catch (error) {
-      return { success: false, message: "Profile update failed!" };
+      console.error("Logout error:", error);
+    } finally {
+      setUser(null);
+      navigate("/login");
     }
   };
 
-  const value = {
+  // Memoized context value agar tidak membuat referensi baru setiap render
+const authValue = useMemo(
+  () => ({
     user,
-    users,
-    isLoading,
     isAuthenticated: !!user,
-    register,
+    loading,
     login,
+    register,
     logout,
-    isEmailRegistered,
-    validatePassword,
-    updateProfile
-  };
+    checkAuthStatus, 
+  }),
+  [user, loading]
+);
 
   return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);

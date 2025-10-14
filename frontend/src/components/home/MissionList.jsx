@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Zap, Lightbulb, Droplet, Sprout } from "lucide-react";
 
-const MissionList = ({ missions }) => {
+const MissionList = ({ user, missions }) => {
   // Icon mapping untuk mission
   const iconMap = {
     1: Lightbulb,
@@ -29,23 +29,15 @@ const MissionList = ({ missions }) => {
               className={`border-l-4 border-primary pr-2 pl-4 py-3 bg-white rounded-xl shadow-sm`}
             >
               <div className="flex items-start gap-3">
-                <div
-                  className={`p-2 rounded-lg bg-primary/10`}
-                >
-                  <Icon
-                    className={`w-3 h-3 sm:w-5 sm:h-5 text-primary`}
-                  />
+                <div className={`p-2 rounded-lg bg-primary/10`}>
+                  <Icon className={`w-3 h-3 sm:w-5 sm:h-5 text-primary`} />
                 </div>
 
                 <div className="flex-1">
-                  <h4
-                    className={`font-semibold text-sm mb-1 text-foreground`}
-                  >
+                  <h4 className={`font-semibold text-sm mb-1 text-foreground`}>
                     {mission.title}
                   </h4>
-                  <p
-                    className={`text-xs mb-2 text-muted-foreground`}
-                  >
+                  <p className={`text-xs mb-2 text-muted-foreground`}>
                     {mission.description}
                   </p>
 

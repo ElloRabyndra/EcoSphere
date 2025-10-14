@@ -436,6 +436,39 @@ const developer = [
   },
 ];
 
+const levels = [
+  {
+    id: 1,
+    level: 1,
+    point: 0,
+    min_point: 0,
+  },
+  {
+    id: 2,
+    level: 2,
+    point: 10,
+    min_point: 50,
+  },
+  {
+    id: 3,
+    level: 3,
+    point: 20,
+    min_point: 150,
+  },
+  {
+    id: 4,
+    level: 4,
+    point: 30,
+    min_point: 300,
+  },
+  {
+    id: 5,
+    level: 5,
+    point: 40,
+    min_point: 500,
+  },
+];
+
 export {
   userStats,
   steps,
@@ -447,4 +480,5 @@ export {
   actions,
   actionThemes,
   developer,
+  levels,
 };
