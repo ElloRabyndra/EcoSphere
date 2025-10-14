@@ -3,26 +3,26 @@ import ImpactCard from "./ImpactCard"
 
 const Hero = () => {
     return (
-    <section className="md:w-200">
+    <section className="xl:w-200">
       {/* Hero */}
-      <div className="bg-[#32CD32]/20 pt-8 md:pt-10 h-85 md:h-75 md:w-200 relative -mb-17">
-        <div className="max-w-7xl md:w-220 mx-auto flex flex-row px-6 md:px-10">
-          <div className="grid grid-cols-2 gap-8 md:gap-15 items-center">
+      <div className="bg-[#32CD32]/20 pt-8 md:pt-10 xl:w-200 relative -mb-17">
+        <div className="max-w-7xl md:w-full mx-auto flex flex-row px-6 md:px-10">
+          <div className="grid grid-cols-2 gap-8 md:gap-15 items-center mb-18">
             {/* Content */}
-            <div className="space-y-0 md:space-y-2 md:w-120">
+            <div className="space-y-0 md:space-y-2 w-full">
               <h2 className="text-base md:text-3xl font-extrabold text-[#228C22]">
                 Aksi Kecil, Dampak Besar
               </h2>
               <h4 className="text-xs md:text-lg font-semibold text-black">
                 Kenalin aku Sphero!
               </h4>
-              <p className="text-xs md:text-base text-[#636363] w-38 md:w-120 leading-relaxed">
-                Kenalin aku Sphero! Bergabunglah dengan ribuan orang yang sudah memulai perubahan. Lakukan aksi ramah lingkungan, kumpulkan poin, dan jadilah bagian dari solusi!
+              <p className="text-xs md:text-base text-[#636363]  md:w-120 leading-relaxed">
+                Bergabunglah dengan ribuan orang yang sudah memulai perubahan. Lakukan aksi ramah lingkungan, kumpulkan poin, dan jadilah bagian dari solusi!
               </p>
             </div>
 
             {/* Character */}
-            <div className="flex justify-center md:px-18">
+            <div className="flex justify-center md:px-18 ">
               <img
                 src="/Landing/Sphero-Landing.png"
                 alt="Sphero"
@@ -34,7 +34,7 @@ const Hero = () => {
       </div>
 
       {/* impact */}
-      <div className="max-w-7xl mx-auto px-5 md:px-10">
+      <div className="max-w-7xl mx-auto px-5 md:px-10 mt-4">
         <div className="flex flex-row gap-3 md:gap-5">
           {impacts.map((impact, index) => (
             <ImpactCard
