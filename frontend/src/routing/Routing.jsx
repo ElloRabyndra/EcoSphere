@@ -19,7 +19,7 @@ const Routing = () => {
     <section className="text-foreground">
       <Routes>
         <Route element={<AuthRedirect />}>
-          <Route path="/landing" element={<Landing />} />
+          <Route path="/" element={<Landing />} />
           <Route element={<AuthLayout />}>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -27,7 +27,7 @@ const Routing = () => {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/edukasi" element={<Education />} />
             <Route path="/aksi/:actionId" element={<ActionDetail />} />
             <Route path="/aksi" element={<Action />} />
