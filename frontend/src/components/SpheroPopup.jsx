@@ -40,13 +40,6 @@ const SpheroPopup = ({
     return "";
   };
 
-  const handleClick = () => {
-    setIsVisible(false);
-    if (onClose) {
-      setTimeout(() => onClose(), 300);
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -62,7 +55,7 @@ const SpheroPopup = ({
         <img
           src={getImagePath()}
           alt={`${popupType} popup`}
-          className="sphero-popup-image"
+          className="max-w-64 md:max-w-80 lg:max-w-96 sphero-popup-image"
         />
       </div>
     </div>
