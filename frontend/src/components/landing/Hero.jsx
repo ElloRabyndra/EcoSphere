@@ -19,7 +19,7 @@ const Hero = () => {
               <p className="text-xs md:text-base text-[#636363]  md:w-120 leading-relaxed">
                 EcoSphere adalah platform yang mengajakmu beraksi nyata menjaga
                 lingkungan. Mulai kumpulkan poin, naikkan level, dan raih
-                penghargaan atas untuk bumi yang lebih hijau!
+                penghargaan atas untuk bumi yang lebih hijau!
               </p>
             </div>
 
@@ -43,12 +43,12 @@ const Hero = () => {
           ))}
         </div>
 
-        <div className="mt-5 rounded-md px-2">
+        <div className="mt-5 rounded-md px-2 mb-0">
           <p className="text-start text-[#636363] text-sm md:text-base">
             Setiap aksi kecil yang kamu lakukan hari ini akan menciptakan dampak
             besar untuk masa depan. EcoSphere membuatnya mudah dan menyenangkan!
           </p>
-          <p className="text-start text-[#228C22] font-semibold mt-2 md:mb-8 italic">
+          <p className="text-start text-[#228C22] font-semibold mt-2 mb-0 italic">
             "Perubahan dimulai dari dirimu. Mulai hari ini, mulai dari hal
             kecil."
           </p>

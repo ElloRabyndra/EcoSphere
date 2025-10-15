@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const CallToAction = () => {
   return (
-    <section className="py-8 bg-[#32CD32]/20 lg:py-10 h-full">
+    <section className="py-8 bg-[#32CD32]/20 lg:py-10 mt-6">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <h2 className="text-2xl font-extrabold text-[#32CD32] mb-3 lg:mb-1 lg:text-3xl flex flex-col">
           Siapkah Kamu Menjadi{" "}

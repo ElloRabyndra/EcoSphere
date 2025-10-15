@@ -1,12 +1,11 @@
 import CallToAction from "@/components/landing/CallToAction";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Hero from "@/components/landing/Hero";
-import { OrganicBlobBackground } from "@/components/OrganicBlobBackground";
 
 const Landing = () => {
   return (
-    <section className="w-full">
-      <div className="xl:flex">
+    <section className="w-full min-h-screen flex flex-col">
+      <div className="xl:flex flex-grow">
         <Hero />
         <HowItWorks />
       </div>
