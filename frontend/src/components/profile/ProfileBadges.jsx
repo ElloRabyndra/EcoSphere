@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { Trophy } from "lucide-react";
 
 const ProfileBadges = ({ badges }) => {
