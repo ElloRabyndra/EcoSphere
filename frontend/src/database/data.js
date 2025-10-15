@@ -416,7 +416,7 @@ const developer = [
     quote:
       '"Strong backend systems are the foundation that powers environmental change at scale."',
     hope: "Semoga EcoSphere bisa menjadi aplikasi yang digunakan di seluruh sekolah Indonesia, membuat pembelajaran lingkungan jadi lebih interaktif dan menyenangkan.",
-    cardBg: "bg-[#DD0026]/20",
+    cardBg: "bg-[#d62241]/20",
     cardColor: "#DD0026",
     hopeBg: "bg-[#FFD900]/30",
     hopeColor: "text-[#FFA600]",

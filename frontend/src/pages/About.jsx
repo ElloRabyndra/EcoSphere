@@ -1,7 +1,24 @@
 import { Instagram, Mail } from "lucide-react";
 import { developer } from "@/database/data";
 import DeveloperCard from "@/components/about/DeveloperCard";
+import { toast } from "react-toastify";
+import { aboutSchema } from "@/components/about/Schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 const About = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(aboutSchema),
+  });
+
+  const onSubmit = async (data) => {
+    reset();
+    toast.success("Pesan berhasil dikirim!");
+  };
   return (
     <section className="p-6 py-8 md:p-8 md:py-12">
       <h1 className="font-bold text-xl md:text-2xl border-b-2 border-black pb-2 mb-6">
@@ -15,7 +32,7 @@ const About = () => {
         ))}
       </div>
 
-      <h2 className="font-bold text-xl md:text-2xl border-b-2 border-black pb-2 mb-6">
+      <h2 className="font-bold text-xl md:text-2xl border-b-2 border-black pb-2 md:-mt-8 mb-6">
         Kontak & Feedback
       </h2>
 
@@ -36,16 +53,20 @@ const About = () => {
         {/* Feedback Form */}
         <div className="space-y-3">
           <h3 className="font-semibold text-lg">Kirim Feedback</h3>
-          <form className="space-y-3">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div className="flex flex-col gap-0.5">
               <label htmlFor="name" className="text-sm font-medium">
                 Nama
               </label>
               <input
+                {...register("nama")}
                 type="text"
                 id="name"
-                className="border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent"
+                className={`border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent ${errors.nama ? "placeholder:text-red-500" : ""}`}
                 autoComplete="off"
+                placeholder={
+                  errors.nama ? errors.nama.message : "Masukkan nama"
+                }
               />
             </div>
             <div className="flex flex-col gap-0.5">
@@ -53,15 +74,17 @@ const About = () => {
                 Pesan
               </label>
               <input
+                {...register("pesan")}
                 type="text"
                 id="pesan"
-                className="border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent"
+                className={`border-b-2 border-slate-500 p-1 outline-none focus:border-primary transition-colors bg-transparent ${errors.pesan ? "placeholder:text-red-500" : ""}`}
                 autoComplete="off"
+                placeholder={
+                  errors.pesan ? errors.pesan.message : "Masukkan pesan"
+                }
               />
             </div>
-            <button
-              className="bg-primary/20 text-primary font-semibold w-full rounded-md p-2 cursor-pointer hover:bg-primary/30 transition-colors border-2 border-primary"
-            >
+            <button className="bg-primary/20 text-primary font-semibold w-full rounded-md p-2 cursor-pointer hover:bg-primary/30 transition-colors border-2 border-primary">
               Kirim
             </button>
           </form>
