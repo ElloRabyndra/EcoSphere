@@ -60,7 +60,6 @@ const About = () => {
               />
             </div>
             <button
-              type="submit"
               className="bg-primary/20 text-primary font-semibold w-full rounded-md p-2 cursor-pointer hover:bg-primary/30 transition-colors border-2 border-primary"
             >
               Kirim

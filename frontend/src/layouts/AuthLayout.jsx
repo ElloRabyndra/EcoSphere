@@ -5,7 +5,7 @@ const AuthLayout = () => {
     <div className="relative min-h-screen flex flex-col items-center lg:flex-row lg:items-start overflow-hidden bg-gradient-to-b from-white to-primary/10">
       {/* Header Section */}
       <div className="w-full lg:w-1/2">
-        <div className="mt-12 lg:mt-40 text-center px-4 z-10">
+        <div className="mt-8 lg:mt-40 text-center px-4 z-10">
           <h1 className="font-extrabold text-2xl md:text-3xl lg:text-4xl mb-4">
             Kenalin Aku Sphero !
           </h1>
@@ -23,8 +23,8 @@ const AuthLayout = () => {
 
         {/* Background */}
         <div className="absolute bottom-0 left-0 right-0 z-0">
-          <div className="flex justify-center items-center w-full lg:w-1/2 h-80 lg:h-60 rounded-t-[50%] lg:rounded-tr-[250%] scale-160 lg:scale-140 bg-[#228C22]/40">
-            <div className="w-40 absolute top-[2%] - sm:-mt-0 left-[47%] transform -translate-x-1/2 -translate-y-1/2">
+          <div className="flex justify-center items-center w-full lg:w-1/2 h-90  pb-2 lg:h-60 rounded-t-[50%] lg:rounded-tr-[250%] scale-160 lg:scale-140 bg-[#228C22]/40">
+            <div className="w-35 top-0 -ml-5 -mt-15 md:-mt-13  absolute z-10">
               <img
                 className="w-full h-full object-cover"
                 src="/Auth/Sphero.png"

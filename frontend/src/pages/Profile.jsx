@@ -1,39 +1,53 @@
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileStats from "@/components/profile/ProfileStats";
 import ProfileBadges from "@/components/profile/ProfileBadges";
+import { useAuth } from "@/features/auth/useAuth";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const Profile = () => {
-  const userProfile = {
-    username: "User123",
-    level: 2,
-    currentXP: 600,
-    maxXP: 1000,
-    profileImage: null, // Bisa diisi dengan URL gambar
-  };
+  const { user, loading: authLoading } = useAuth();
+  const [loading, setLoading] = useState(true);
 
-  const stats = {
-    totalActions: 42,
-    totalPoints: 12000,
-    badges: { current: 6, total: 6 },
-  };
+  useEffect(() => {
+    const fetchActions = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/actions");
+        const result = await response.json();
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const badges = [
-    { id: 1, color: "bg-red-400", earned: true },
-    { id: 2, color: "bg-purple-400", earned: true },
-    { id: 3, color: "bg-yellow-400", earned: true },
-    { id: 4, color: "bg-blue-400", earned: true },
-    { id: 5, color: "bg-cyan-400", earned: true },
-    { id: 6, color: "bg-teal-400", earned: true },
-    { id: 7, color: "bg-green-400", earned: false },
-    { id: 8, color: "bg-orange-400", earned: false },
-  ];
+    fetchActions();
+  }, []);
+
+  // Tampilkan spinner jika auth masih loading atau user belum siap
+  if (authLoading || !user) {
+    return (
+      <main className="min-h-screen flex justify-center items-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </main>
+    );
+  }
+
+  // Tampilkan spinner jika data actions masih loading
+  if (loading) {
+    return (
+      <main className="min-h-screen flex justify-center items-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </main>
+    );
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6 ">
-        <ProfileHeader profile={userProfile} />
-        <ProfileStats stats={stats} />
-        <ProfileBadges badges={badges} />
+        <ProfileHeader user={user} />
+        <ProfileStats user={user} />
+        <ProfileBadges badges={user.earned_badges} />
       </div>
     </div>
   );

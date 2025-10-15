@@ -41,20 +41,20 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-70 min-w-50 lg:min-w-md shadow-md rounded-lg text-foreground">
+    <div className="max-w-70 min-w-50 lg:min-w-md rounded-xl text-foreground">
       <div className="w-full flex text-[10px] lg:text-base xl:text-lg">
         <Link
           to="/login"
-          className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-lg overflow-hidden ${
-            isActive("/login") ? "bg-white" : "bg-background"
+          className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-xl overflow-hidden ${
+            isActive("/login") ? "bg-white" : "bg-background lg:bg-transparent"
           }`}
         >
           Masuk
         </Link>
         <Link
           to="/register"
-          className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-lg overflow-hidden ${
-            isActive("/register") ? "bg-white" : "bg-background"
+          className={`w-full flex items-center justify-center py-1 text-foreground rounded-t-xl overflow-hidden ${
+            isActive("/register") ? "bg-white" : "bg-background lg:bg-transparent"
           }`}
         >
           Daftar
@@ -62,7 +62,7 @@ const Register = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full bg-white p-3 text-[9px] lg:text-sm xl:text-base space-y-1.5 rounded-b-lg">
+        <div className="w-full bg-white p-3 lg:p-6 text-[9px] lg:text-sm xl:text-base space-y-4 rounded-b-xl">
           {/* Nama */}
           <div className="space-y-0.5 flex flex-col">
             <label htmlFor="display_name">Nama</label>
@@ -102,7 +102,7 @@ const Register = () => {
           </div>
 
           {/* Password */}
-          <div className="space-y-0.5 flex flex-col">
+          <div className="space-y-0.5 flex flex-col lg:mb-6">
             <label htmlFor="password">Password</label>
             <div
               className={`relative pb-0.5 border-b w-full ${

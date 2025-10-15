@@ -1,13 +1,36 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Zap, Lightbulb, Droplet, Sprout } from "lucide-react";
+import { Zap, Lightbulb, Droplet, Sprout, Trash, Leaf, CookingPot, RefreshCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router";
 
 const MissionList = ({ user, missions }) => {
-  // Icon mapping untuk mission
-  const iconMap = {
-    1: Lightbulb,
-    2: Droplet,
-    3: Sprout,
+  const navigate = useNavigate();
+  const [randomMissions, setRandomMissions] = useState([]);
+
+
+  // Mengambil 3 action random berbeda
+  useEffect(() => {
+    // Filter misi sesuai level user
+    const availableMissions = missions.filter(
+      (mission) => mission.req_level <= user.level
+    );
+
+    // Acak urutan array
+    const shuffled = availableMissions.sort(() => 0.5 - Math.random());
+
+    // Ambil 3 misi pertama dari hasil acakan
+    const selected = shuffled.slice(0, 3);
+
+    setRandomMissions(selected);
+  },[user]);
+
+  const categoryIcons = {
+    hematenergi: <Lightbulb className="w-5 h-5 text-primary" />,
+    kurangisampahplastik: <Trash className="w-5 h-5 text-primary" />,
+    peduliAlam: <Leaf className="w-5 h-5 text-primary" />,
+    bijakdalamkonsumsi: <CookingPot className="w-5 h-5 text-primary" />,
+    daurulang: <RefreshCcw className="w-5 h-5 text-primary" />,
   };
 
   return (
@@ -20,8 +43,8 @@ const MissionList = ({ user, missions }) => {
       </div>
 
       <div className="space-y-3">
-        {missions.map((mission) => {
-          const Icon = iconMap[mission.id] || Lightbulb;
+        {randomMissions.map((mission) => {
+          const Icon = categoryIcons[mission.category] || Lightbulb;
 
           return (
             <div
@@ -45,7 +68,7 @@ const MissionList = ({ user, missions }) => {
                     <span
                       className={`text-xs font-medium text-muted-foreground`}
                     >
-                      Level {mission.level}
+                      Level {mission.req_level}
                     </span>
                     <span
                       className={`text-xs font-bold px-2 py-1 rounded-full bg-primary text-white`}
@@ -55,6 +78,7 @@ const MissionList = ({ user, missions }) => {
                   </div>
 
                   <Button
+                    onClick={() => navigate(`/aksi/${mission.id}`)}
                     className={`w-full mt-2 text-xs bg-primary/20 text-primary hover:bg-primary/30 cursor-pointer`}
                     variant="secondary"
                   >

@@ -14,10 +14,15 @@ const ProfileBadges = ({ badges }) => {
         {badges.map((badge) => (
           <div
             key={badge.id}
-            className={`aspect-square rounded-full ${badge.color} ${
-              badge.earned ? "opacity-100" : "opacity-30"
-            } transition-all hover:scale-110 cursor-pointer`}
-          />
+            className={`aspect-square rounded-full transition-all hover:scale-110 cursor-pointer flex items-center justify-center`}
+            title={badge.name}
+          >
+            <img
+              src={`/Badge/${badge.image_name}`}
+              alt={badge.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -293,7 +293,7 @@ const BadgeSystem = {
         const [energyCount] = await connection.execute(
             `SELECT COUNT(*) as count FROM user_actions ua 
             JOIN actions a ON ua.action_id = a.id 
-            WHERE ua.user_id = ? AND a.category = 'Penghematan Energi'`,
+            WHERE ua.user_id = ? AND a.category = 'Hemat Energi'`,
             [user_id]
         );
 
