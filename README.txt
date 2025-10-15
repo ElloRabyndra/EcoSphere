@@ -97,10 +97,7 @@ B. Login/Register
     -Isi form registrasi dan klik tombol "Daftar
     -Anda akan otomatis login dan diarahkan ke halaman home
 
-C
 
-
-============================= CONTACT PERSON =============================
 Jika terdapat kendala dalam menjalankan website anda dapat menghubungi pihak panitia atau menghubungi pihak tim kami, +6281364324016 (Ello)
 
 
