@@ -17,7 +17,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { icon: Home, label: "Home", path: "/" },
+    { icon: Home, label: "Home", path: "/home" },
     { icon: BookOpen, label: "Edukasi", path: "/edukasi" },
     { icon: Swords, label: "Aksi", path: "/aksi" },
     { icon: Award, label: "Badge", path: "/badge" },

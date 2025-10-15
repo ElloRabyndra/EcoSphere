@@ -23,14 +23,17 @@ const ProfileCard = ({ user }) => {
 
   return (
     <div className="rounded-xl overflow-hidden shadow-md">
-      {/* Profile Section - Mobile: Card Hijau, Desktop: Split Layout */}
       <div className="md:flex">
         {/* User Profile Card (Hijau) */}
         <div className="bg-primary p-6 border-none shadow-md md:flex-1">
           <div className="flex items-center gap-4 mb-4">
             {/* Profile Picture */}
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center text-white font-bold text-2xl">
-              {username.charAt(0).toUpperCase()}
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-background flex-shrink-0 flex items-center justify-center text-white font-bold text-2xl">
+              <img
+                src="/profile/sphero.png"
+                alt="Sphero"
+                className="w-full h-full"
+              />
             </div>
 
             <div className="flex-1">
@@ -54,11 +57,15 @@ const ProfileCard = ({ user }) => {
                 style={{ width: `${Math.min(xpPercentage, 100)}%` }}
               ></div>
             </div>
-            <p className="text-white/80 text-sm mt-2">{currentPoints} / {maxXP} XP</p>
-            {nextLevel && (
+            <p className="text-white/80 text-sm mt-2">
+              {currentPoints} / {maxXP} XP
+            </p>
+            {nextLevel ? (
               <p className="text-white/80 text-xs mt-1">
                 Next: {nextLevel.name}
               </p>
+            ) : (
+              <p className="text-white/80 text-xs mt-1">Max Level Reached</p>
             )}
           </div>
         </div>

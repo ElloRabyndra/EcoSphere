@@ -6,7 +6,6 @@ import { OrganicBlobBackground } from "@/components/OrganicBlobBackground";
 const Landing = () => {
   return (
     <section className="w-full">
-      <OrganicBlobBackground />
       <div className="xl:flex">
         <Hero />
         <HowItWorks />

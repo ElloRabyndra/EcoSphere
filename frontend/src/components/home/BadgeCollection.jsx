@@ -7,20 +7,6 @@ const BadgeCollection = ({ user }) => {
   // Badge yang sudah didapat dari user
   const earnedBadges = user?.earned_badges || [];
   const hasBadges = earnedBadges.length > 0;
-  console.log(earnedBadges);
-
-  // Mapping warna berdasarkan badge_id atau nama
-  const getBadgeColor = (badgeId) => {
-    const colorMap = {
-      1: "bg-green-400",
-      2: "bg-blue-400",
-      3: "bg-yellow-400",
-      4: "bg-emerald-400",
-      5: "bg-purple-400",
-      6: "bg-orange-400",
-    };
-    return colorMap[badgeId] || "bg-gray-400";
-  };
 
   return (
     <Card className="p-6 border border-gray-200 shadow-sm">
@@ -34,13 +20,11 @@ const BadgeCollection = ({ user }) => {
       {/* Badge Grid atau Empty State */}
       {hasBadges ? (
         <>
-          <div className="grid grid-cols-6 gap-3 mb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mb-4">
             {earnedBadges.map((badge) => (
               <div
                 key={badge.id}
-                className={`aspect-square rounded-full ${getBadgeColor(
-                  badge.id
-                )} transition-all hover:scale-110 cursor-pointer flex items-center justify-center`}
+                className={`aspect-square rounded-full transition-all hover:scale-110 cursor-pointer flex items-center justify-center`}
                 title={badge.name}
               >
                 <img
