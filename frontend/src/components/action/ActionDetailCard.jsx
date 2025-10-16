@@ -11,28 +11,19 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { actionThemes } from "@/database/data";
-import SpheroPopup from "@/components/SpheroPopup"; // Sesuaikan path
+import SpheroPopup from "@/components/SpheroPopup";
+import axios from "axios";
 
-const ActionDetailCard = () => {
+const ActionDetailCard = ({ action, actionType }) => {
   const { actionId } = useParams();
   const navigate = useNavigate();
   const { user, checkAuthStatus } = useAuth();
 
-  const [action, setAction] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   // State untuk popup
   const [popupQueue, setPopupQueue] = useState([]);
   const [currentPopup, setCurrentPopup] = useState(null);
-
-  const categoryToActionType = {
-    "Hemat Energi": "hematEnergi",
-    "Kurangi Sampah Plastik": "kurangiSampahPlastik",
-    "Peduli Alam": "peduliAlam",
-    "Bijak dalam Konsumsi": "bijakDalamKonsumsi",
-    "Daur Ulang": "daurUlang",
-  };
 
   const categoryIcons = {
     hematEnergi: <Lightbulb className="w-5 h-5 text-primary" />,
@@ -41,30 +32,6 @@ const ActionDetailCard = () => {
     bijakDalamKonsumsi: <CookingPot className="w-5 h-5 text-primary" />,
     daurUlang: <RefreshCcw className="w-5 h-5 text-primary" />,
   };
-
-  useEffect(() => {
-    const fetchActionDetail = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/actions/${actionId}`
-        );
-        const result = await response.json();
-
-        if (result.success) {
-          setAction(result.data);
-        } else {
-          toast.error("Gagal memuat detail aksi");
-        }
-      } catch (err) {
-        toast.error("Terjadi kesalahan saat memuat data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchActionDetail();
-  }, [actionId]);
 
   // Handler untuk menampilkan popup secara berurutan
   useEffect(() => {
@@ -94,36 +61,31 @@ const ActionDetailCard = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/user-actions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          action_id: parseInt(actionId),
-        }),
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/user-actions",
+        { action_id: parseInt(actionId) },
+        { withCredentials: true }
+      );
 
-      const result = await response.json();
+      const result = response.data;
 
-      if (response.ok && result.success) {
+      if (result.success) {
         const data = result.data;
         console.log(result.data);
 
         let delay = 0;
 
-        // 1. Tampilkan popup badges (tampil pertama)
+        // 1. Popup badge
         if (data.badges_earned && data.new_badges.length > 0) {
           data.new_badges.forEach((badge, index) => {
             setTimeout(() => {
               showPopup("badge", badge.name);
-            }, delay + index * 1000); // jeda per badge 1800ms
+            }, delay + index * 1000);
           });
           delay += data.new_badges.length * 1000;
         }
 
-        // 2. Tampilkan popup level up jika ada
+        // 2. Popup level up
         if (data.level_up) {
           setTimeout(() => {
             showPopup("level", data.new_level);
@@ -131,16 +93,14 @@ const ActionDetailCard = () => {
           delay += 1800;
         }
 
-        // 3. Tampilkan popup poin (paling akhir)
+        // 3. Popup poin
         setTimeout(() => {
           showPopup("point", data.points_earned);
         }, delay);
         delay += 1800;
 
-        // Mengecek status autentikasi
         await checkAuthStatus();
 
-        // Navigate setelah semua popup selesai
         setTimeout(() => {
           navigate("/aksi");
         }, delay);
@@ -148,30 +108,25 @@ const ActionDetailCard = () => {
         toast.error(result.error || "Gagal melakukan aksi");
       }
     } catch (err) {
-      toast.error("Terjadi kesalahan saat melakukan aksi");
-      console.error(err);
+      console.error("Full error:", err); // <-- Tambah ini
+      if (err.response) {
+        console.error("Error data:", err.response.data);
+        toast.error(err.response.data.error || "Gagal melakukan aksi");
+      } else {
+        toast.error("Terjadi kesalahan saat melakukan aksi");
+      }
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (loading) {
-    return (
-      <main className="min-h-screen flex justify-center items-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </main>
-    );
-  }
-
-  if (!action) {
+  if (!action || !actionType) {
     return (
       <main className="p-6 md:ml-16 py-8 md:p-8 md:py-12 xl:ml-0">
         <p className="text-red-500">Action tidak ditemukan</p>
       </main>
     );
   }
-
-  const actionType = categoryToActionType[action.category] || "peduliAlam";
 
   return (
     <>

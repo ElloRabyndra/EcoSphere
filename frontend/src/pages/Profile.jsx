@@ -7,34 +7,9 @@ import { Loader2 } from "lucide-react";
 
 const Profile = () => {
   const { user, loading: authLoading } = useAuth();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchActions = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/actions");
-        const result = await response.json();
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchActions();
-  }, []);
 
   // Tampilkan spinner jika auth masih loading atau user belum siap
   if (authLoading || !user) {
-    return (
-      <main className="min-h-screen flex justify-center items-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </main>
-    );
-  }
-
-  // Tampilkan spinner jika data actions masih loading
-  if (loading) {
     return (
       <main className="min-h-screen flex justify-center items-center">
         <Loader2 className="h-8 w-8 animate-spin" />

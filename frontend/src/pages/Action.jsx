@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ActionGrid from "@/components/action/ActionGrid";
 import { useAuth } from "@/features/auth/useAuth";
+import axios from "axios";
 
 const Action = () => {
   const [actions, setActions] = useState([]);
@@ -20,8 +21,8 @@ const Action = () => {
   useEffect(() => {
     const fetchActions = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/actions");
-        const result = await response.json();
+        const response = await axios.get("http://localhost:3000/api/actions");
+        const result = response.data;
 
         if (result.success) {
           setActions(result.data);

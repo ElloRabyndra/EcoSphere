@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import PageHeader from "@/components/badge/PageHeader";
 import BadgeGrid from "@/components/badge/BadgeGrid";
 import { Card } from "@/components/ui/card";
+import axios from "axios";
 
 const Badge = () => {
-  const [badges, setBadges] = useState([]);
-  const [userBadges, setUserBadges] = useState([]);
   const [badgesFiltered, setBadgesFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,23 +12,20 @@ const Badge = () => {
   useEffect(() => {
     const fetchBadges = async () => {
       try {
+        // Jalankan dua request secara paralel
         const [badgeResponse, userBadgeResponse] = await Promise.all([
-          fetch("http://localhost:3000/api/badges", {
-            credentials: "include", // Kirim cookie session untuk autentikasi
+          axios.get("http://localhost:3000/api/badges", {
+            withCredentials: true, 
           }),
-          fetch("http://localhost:3000/api/badges/user", {
-            credentials: "include", // Kirim cookie session untuk autentikasi
+          axios.get("http://localhost:3000/api/badges/user", {
+            withCredentials: true,
           }),
         ]);
 
-        const [badgeResult, userBadgeResult] = await Promise.all([
-          badgeResponse.json(),
-          userBadgeResponse.json(),
-        ]);
+        const badgeResult = badgeResponse.data;
+        const userBadgeResult = userBadgeResponse.data;
 
         if (badgeResult.success && userBadgeResult.success) {
-          setBadges(badgeResult.data);
-          setUserBadges(userBadgeResult.data);
           const filteredBadges = badgeResult.data.map((badge) => ({
             ...badge,
             awarded: userBadgeResult.data.some((ub) => ub.id === badge.id),

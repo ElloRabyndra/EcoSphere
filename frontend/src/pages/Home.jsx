@@ -1,10 +1,10 @@
 import ProfileCard from "@/components/home/ProfileCard";
 import BadgeCollection from "@/components/home/BadgeCollection";
 import MissionList from "@/components/home/MissionList";
-import { missions } from "@/database/data";
 import { useAuth } from "@/features/auth/useAuth";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Home = () => {
   const { user, loading: authLoading } = useAuth();
@@ -14,8 +14,8 @@ const Home = () => {
   useEffect(() => {
     const fetchActions = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/actions");
-        const result = await response.json();
+        const response = await axios.get("http://localhost:3000/api/actions");
+        const result = response.data;
         setMissions(result.data);
       } catch (err) {
         console.error(err);

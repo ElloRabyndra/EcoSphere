@@ -42,7 +42,7 @@ const requireGuest = (req, res, next) => {
     if (req.session && req.session.userId) {
         return res.status(400).json({ 
         success: false, 
-        message: 'You are already logged in' 
+        message: 'You are already logged in, please refresh the page' 
         });
     }
     next();
