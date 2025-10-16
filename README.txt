@@ -1,4 +1,4 @@
-PANDUAN INSTALASI DAN PENGGUNAAN ECOSPHERE
+PANDUAN INSTALASI DAN PENGGUNAAN ECOSPHERE (SINERGI FEST 2025)
 
 ============================= PERSYARATAN SISTEM =============================
 Sebelum memulai instalasi, pastikan sistem Anda memenuhi persyaratan berikut:
