@@ -99,13 +99,3 @@ B. Login/Register
 
 
 Jika terdapat kendala dalam menjalankan website anda dapat menghubungi pihak panitia atau menghubungi pihak tim kami, +6281364324016 (Ello)
-
-
-
-
-
-
-
-
-
-    
