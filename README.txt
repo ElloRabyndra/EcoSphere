@@ -97,5 +97,47 @@ B. Login/Register
     -Isi form registrasi dan klik tombol "Daftar
     -Anda akan otomatis login dan diarahkan ke halaman home
 
+C. Navigasi Sidebar
+  -Menu: Home, Edukasi, Aksi, Badge, Tentang, Profil
+  -Logout
+
+D. Halaman Home (Dashboard)
+  -Menampilkan kartu profil (avatar, nama, level, poin, progress bar ke level berikutnya)
+  -Koleksi badge
+  -Daftar misi: rekomendasi aksi berdasarkan level
+
+E. Halaman Edukasi
+  -Berisi panduan lingkungan dan tips ramah lingkungan
+  -Eco Tips: tips singkat untuk kehidupan sehari-hari yang ramah lingkungan
+
+F. Halaman Aksi
+  -Menampilkan semua aksi yang tersedia
+  -Dikelompokkan dalam 5 kategori: Peduli Alam, Kurangi Sampah Plastik, Hemat Energi, Bijak dalam -Konsumsi, Daur Ulang
+  -Setiap kartu aksi menampilkan: judul, kategori, poin, level minimal, status
+  -Aksi terkunci ditandai dengan ikon gembok dan informasi level yang dibutuhkan
+  -Klik kartu aksi untuk melihat detail dan melakukan aksi
+
+G. Detail Aksi & Melakukan Aksi
+  -Menampilkan deskripsi lengkap, dampak ekologis, poin, dan level minimal
+  -Klik tombol "Lakukan Aksi" untuk menyelesaikan
+  -Sistem akan otomatis: menambah poin, cek level up, cek badge baru, tampilkan notifikasi
+
+H. Sistem Level
+  -Level 1: 0 poin, Level 2: 50 poin, Level 3: 150 poin, Level 4: 300 poin, Level 5: 500 poin
+  -Naik level dengan mengumpulkan poin dari aksi
+  -Manfaat: membuka aksi baru, mendapat badge khusus (Eco Master untuk level 5)
+
+I. Halaman Badge
+  -Menampilkan semua 6 badge yang tersedia
+  -Badge yang sudah didapat berwarna terang, yang belum berwarna abu-abu/pudar
+  -Badge otomatis didapat saat kriteria terpenuhi
+
+J. Halaman Tentang
+  -Informasi tim pengembang EcoSphere
+  -Form feedback untuk mengirim saran dan kritik
+
+K. Halaman Profil
+  -Informasi akun: avatar, nama, email, level, total poin
+  -Statistik: total aksi, jumlah badge, progress badge, progress ke level berikutnya
 
 Jika terdapat kendala dalam menjalankan website anda dapat menghubungi pihak panitia atau menghubungi pihak tim kami, +6281364324016 (Ello)
