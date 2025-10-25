@@ -1,4 +1,4 @@
-# EcoSphere - Turning Ripples Into Great Growth with Every Response
+# EcoSphere 
 
 EcoSphere is an interactive educational web platform designed to cultivate environmental awareness and positive habits among youth, particularly children and teenagers, through **gamification**. It encourages users to perform simple, daily eco-friendly actions and tracks their progress, transforming environmental care into a fun and rewarding experience.
 
@@ -90,4 +90,4 @@ This project was developed by **Tim Omelo** for the **SINERGI FEST WEB DEVELOPME
 - Creating a community feature for users to motivate each other and share progress.
 - Continuous updates with new actions, categories, and challenges.
 
-> _"Perubahan dimulai dari dirimu. Mulai hari ini, mulai dari hal kecil."_
+> _"Perubahan dimulai dari dirimu. Aksi Kecil Dampak Besar."_
